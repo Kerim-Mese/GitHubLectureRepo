@@ -83,7 +83,7 @@ public class stepdefinations {
         ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.adressBox,ReusubleMethods.FakerDataType.ADDRESS);
 
         //rsmPagesSatınAlma.note.click();
-        rsmPagesSatınAlma.note.sendKeys("Eğlence yeni başlıyor");
+        rsmPagesSatınAlma.note.sendKeys("https://www.youtube.com/shorts/4KmS_-gfgqs");
 
 
 
