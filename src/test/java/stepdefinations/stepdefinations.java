@@ -2,6 +2,7 @@ package stepdefinations;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import utilities.ConfigReader;
 import utilities.Driver;
@@ -64,6 +65,12 @@ public class stepdefinations {
        rsmPagesSatınAlma.tcNoBox.click();
        ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.tcNoBox,ReusubleMethods.FakerDataType.RANDOM_11_DIGIT_NUMBER);
 
+       rsmPagesSatınAlma.phoneBox.click();
+       ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.phoneBox,ReusubleMethods.FakerDataType.TURKISH_PHONE_NUMBER);
+
+       rsmPagesSatınAlma.email.click();
+       ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.email,ReusubleMethods.FakerDataType.EMAIL);
+
        rsmPagesSatınAlma.paswordBox.click();
        ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.paswordBox,ReusubleMethods.FakerDataType.PASSWORD);
 
@@ -76,8 +83,16 @@ public class stepdefinations {
         rsmPagesSatınAlma.adressBox.click();
         ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.adressBox,ReusubleMethods.FakerDataType.ADDRESS);
 
+        rsmPagesSatınAlma.note.click();
+        rsmPagesSatınAlma.note.sendKeys("Eğlence yeni başlıyor");
+
         rsmPagesSatınAlma.contract.click();
 
 
+    }
+
+    @Then("Sipariş tamamla butonuna tıklar")
+    public void siparişTamamlaButonunaTıklar() {
+        rsmPagesSatınAlma.orderComplated.click();
     }
 }

@@ -52,8 +52,14 @@ public class rsmPagesSatınAlma {
     @FindBy(xpath = "//textarea[@placeholder='Sipariş Adresiniz']")
     public WebElement adressBox;
 
+    @FindBy(xpath = "//textarea[@placeholder='Sipariş Notunuz']")
+    public WebElement note;
+
     @FindBy(id = "approve")
     public WebElement contract;
+
+    @FindBy(xpath = "//button[@class='btn btn-block btn-dark btn-icon-right btn-rounded btn-checkout mt-3 FormBtn']")
+    public WebElement orderComplated;
 
 
 
