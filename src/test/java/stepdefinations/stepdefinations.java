@@ -26,7 +26,6 @@ public class stepdefinations {
 
         rsmPagesSatınAlma.menürkstıklama.click();
 
-        Thread.sleep(2000);
 
     }
 
@@ -39,7 +38,7 @@ public class stepdefinations {
     }
 
     @And("ürünü sepete ekler")
-    public void ürünüSepeteEkler() {
+    public void ürünüSepeteEkler() throws InterruptedException {
         ReusubleMethods.elementeKadarScroll(rsmPagesSatınAlma.sepeteEkle);
         rsmPagesSatınAlma.sepeteEkle.click();
         ReusubleMethods.enUsteKadarScroll();
@@ -83,10 +82,15 @@ public class stepdefinations {
         rsmPagesSatınAlma.adressBox.click();
         ReusubleMethods.fakerDoldur(rsmPagesSatınAlma.adressBox,ReusubleMethods.FakerDataType.ADDRESS);
 
-        rsmPagesSatınAlma.note.click();
+        //rsmPagesSatınAlma.note.click();
         rsmPagesSatınAlma.note.sendKeys("Eğlence yeni başlıyor");
 
-        rsmPagesSatınAlma.contract.click();
+
+
+       rsmPagesSatınAlma.contract.click();
+
+
+
 
 
     }
@@ -95,4 +99,6 @@ public class stepdefinations {
     public void siparişTamamlaButonunaTıklar() {
         rsmPagesSatınAlma.orderComplated.click();
     }
+
+
 }

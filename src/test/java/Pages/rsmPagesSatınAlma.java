@@ -61,6 +61,9 @@ public class rsmPagesSatınAlma {
     @FindBy(xpath = "//button[@class='btn btn-block btn-dark btn-icon-right btn-rounded btn-checkout mt-3 FormBtn']")
     public WebElement orderComplated;
 
+    @FindBy(xpath = "//button[contains(@class, 'quantity-plus')]")
+    public WebElement artıButonu;
+
 
 
 

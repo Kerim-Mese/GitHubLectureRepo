@@ -1,6 +1,7 @@
 package utilities;
 
 import com.github.javafaker.Faker;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,7 +15,7 @@ public class ReusubleMethods {
 
     static Faker faker = new Faker(new Locale("tr"));
 
-    // Sayfada bir elemente kadar scroll yapar
+    // Sayfada belirli bir elemente kadar scroll yapar
     public static void elementeKadarScroll(WebElement element) {
         Actions actions = new Actions(Driver.getDriver());
         actions.moveToElement(element).perform();
@@ -26,7 +27,7 @@ public class ReusubleMethods {
         actions.sendKeys(Keys.HOME).perform();
     }
 
-    // Dinamik faker doldurma: İstediğin türü seçerek input doldurur
+    // Faker veri türleri enum
     public enum FakerDataType {
         FIRST_NAME,
         LAST_NAME,
@@ -37,14 +38,15 @@ public class ReusubleMethods {
         ADDRESS
     }
 
+    // Faker kullanarak form alanlarını otomatik doldurur
     public static void fakerDoldur(WebElement element, FakerDataType dataType) {
         String data = "";
         switch (dataType) {
             case FIRST_NAME:
-                data = faker.name().firstName();
+                data = temizleTurkceKarakter(faker.name().firstName());
                 break;
             case LAST_NAME:
-                data = faker.name().lastName();
+                data = temizleTurkceKarakter(faker.name().lastName());
                 break;
             case RANDOM_11_DIGIT_NUMBER:
                 data = getRandom11DigitNumber();
@@ -53,18 +55,38 @@ public class ReusubleMethods {
                 data = getTurkishPhoneNumber();
                 break;
             case EMAIL:
-                data = getEmail();
+                data = temizleTurkceKarakter(getEmail());
                 break;
             case PASSWORD:
                 data = getPassword();
                 break;
             case ADDRESS:
-                data = faker.address().fullAddress();
+                data = temizleTurkceKarakter(faker.address().fullAddress());
                 break;
             default:
-                data = faker.lorem().sentence();
+                data = temizleTurkceKarakter(faker.lorem().sentence());
         }
         element.sendKeys(data);
+    }
+
+    // Türkçe karakterleri İngilizce karakterlere dönüştürür
+    public static String temizleTurkceKarakter(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input
+                .replace("Ğ", "G")
+                .replace("Ü", "U")
+                .replace("Ş", "S")
+                .replace("İ", "I")
+                .replace("Ç", "C")
+                .replace("Ö", "O")
+                .replace("ğ", "g")
+                .replace("ü", "u")
+                .replace("ş", "s")
+                .replace("ı", "i")
+                .replace("ç", "c")
+                .replace("ö", "o");
     }
 
     // 11 Haneli rastgele numara üretir
@@ -87,28 +109,38 @@ public class ReusubleMethods {
         return "+" + phoneNumber;
     }
 
-    // Türkçe isimli email üretir
+    // Türkçe isimli email adresi üretir
     public static String getEmail() {
         String emailPrefix = faker.name().firstName().toLowerCase() + faker.number().numberBetween(100, 999);
         return emailPrefix + "@gmail.com";
     }
 
-    // Harf + rakamdan oluşan parola üretir
+    // Harf + rakam karışık şifre üretir
     public static String getPassword() {
         String harfler = faker.letterify("??????");
         String rakamlar = faker.numerify("###");
         return harfler + rakamlar;
     }
+
+    // Dropdown içinden rastgele bir seçim yapar
     public static void randomSelectFromDropdown(WebElement dropdownElement) {
         Select select = new Select(dropdownElement);
         List<WebElement> options = select.getOptions();
         Random random = new Random();
-
-        int randomIndex = random.nextInt(options.size() - 1) + 1; // 1'den başlasın
-
-        WebElement selectedOption = options.get(randomIndex); // Rastgele seçilen option
-        select.selectByIndex(randomIndex); // Seçimi yapıyoruz
-        selectedOption.click(); // Ve seçilen elemana tıklıyoruz
+        int randomIndex = random.nextInt(options.size() - 1) + 1; // 1'den başlat, 0 seçilmesin (genellikle "Lütfen seçiniz" olur)
+        select.selectByIndex(randomIndex);
     }
 
+    // Stok ekleme işlemi: mevcut stok ile maksimum eklenebilecek stok kıyaslaması
+    public static int addStock(int availableStock, int maxAdd) {
+        return Math.min(maxAdd, availableStock);
+    }
+
+    // JavaScript ile bir elemente belirtilen sayıda hızlı click yapar
+    public static void clickMultipleTimesJS(WebElement element, int times) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) Driver.getDriver();
+        for (int i = 0; i < times; i++) {
+            jsExecutor.executeScript("arguments[0].click();", element);
+        }
+    }
 }
